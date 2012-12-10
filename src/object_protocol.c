@@ -15,6 +15,11 @@ print(PyObject *self, PyObject *args)
     Py_RETURN_NONE;
 }
 
+/*
+ * Alternate:
+ * PyObject* PyObject_GetAttrString(PyObject *o, const char *attr_name)
+*/
+
 static PyObject *
 hasattr(PyObject *self, PyObject *args)
 {
@@ -32,6 +37,11 @@ hasattr(PyObject *self, PyObject *args)
     return Py_False;
 }
 
+/*
+ * Alternate:
+ * PyObject* PyObject_GetAttrString(PyObject *o, const char *attr_name)
+*/
+
 static PyObject *
 getattr(PyObject *self, PyObject *args)
 {
@@ -42,31 +52,25 @@ getattr(PyObject *self, PyObject *args)
     }
 
     attr = PyObject_GetAttr(obj, attr_name);
+    //TODO check null
     Py_INCREF(attr);
     return attr;
 }
 
-/*
-int PyObject_Print(PyObject *o, FILE *fp, int flags)
-int PyObject_HasAttr(PyObject *o, PyObject *attr_name)
-int PyObject_HasAttrString(PyObject *o, const char *attr_name)
-PyObject* PyObject_GetAttr(PyObject *o, PyObject *attr_name)
-PyObject* PyObject_GetAttrString(PyObject *o, const char *attr_name)
-*/
 
 
 static PyMethodDef playground_obj_methods[] = {
     {"not_impl", not_impl, METH_VARARGS, "Not Implemented"},
-    {"print", print, METH_VARARGS, ""},
-    {"hasattr", hasattr, METH_VARARGS, ""},
-    {"getattr", getattr, METH_VARARGS, ""},
+    {"print", print, METH_VARARGS, "PyObject_Print"},
+    {"hasattr", hasattr, METH_VARARGS, "PyObject_HasAttr"},
+    {"getattr", getattr, METH_VARARGS, "PyObject_GetAttr"},
     {NULL, NULL, 0, NULL}
 };
 
 static struct PyModuleDef playground_obj_module = {
     PyModuleDef_HEAD_INIT,
     "object_protocol_playground",
-    "Playground to Leardn Abstract Protocols",
+    "Playground to Learn Abstract Protocols",
     -1,
     playground_obj_methods,
     NULL, NULL, NULL, NULL
