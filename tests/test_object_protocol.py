@@ -1,5 +1,3 @@
-import pytest
-
 def test_object_not_impl():
     import object_protocol_playground as opp
 
