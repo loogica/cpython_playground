@@ -1,5 +1,26 @@
 #include <Python.h>
 
+/* Why Py_RETURN_*?
+ * http://docs.python.org/2/c-api/bool.html#Py_RETURN_TRUE
+ */
+
+static PyObject *
+check(PyObject *self, PyObject *args)
+{
+    int rc;
+    PyObject *number;
+
+    if (!PyArg_ParseTuple(args, "O", &number)) {
+        return NULL;
+    }
+
+    rc = PyNumber_Check(number);
+
+    if (rc > 0)
+        Py_RETURN_TRUE;
+    Py_RETURN_FALSE;
+}
+
 static PyObject *
 add(PyObject *self, PyObject *args)
 {
@@ -17,6 +38,7 @@ add(PyObject *self, PyObject *args)
 
 
 static PyMethodDef playground_obj_methods[] = {
+    {"check", check, METH_VARARGS, "PyNumber_Check"},
     {"add", add, METH_VARARGS, "PyNumber_Add"},
     {NULL, NULL, 0, NULL}
 };
