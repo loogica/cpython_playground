@@ -4,6 +4,16 @@ def test_object_not_impl():
     assert opp.not_impl() == NotImplemented
 
 
+def test_object_raise_not_impl():
+    import object_protocol_playground as opp
+
+    try:
+        opp.raise_not_implemented()
+        assert False
+    except NotImplementedError:
+        assert True
+
+
 def test_object_print():
     import object_protocol_playground as opp
 

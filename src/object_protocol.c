@@ -6,6 +6,17 @@ not_impl(PyObject *self, PyObject *args)
     Py_RETURN_NOTIMPLEMENTED;
 }
 
+/*
+ * Check All exceptions
+ * http://docs.python.org/2/c-api/exceptions.html#standard-exceptions
+ */
+static PyObject *
+raise_not_implemented(PyObject *self, PyObject *args)
+{
+    PyErr_SetString(PyExc_NotImplementedError, "Not Implemented");
+    return NULL;
+}
+
 
 static PyObject *
 print(PyObject *self, PyObject *args)
@@ -26,9 +37,8 @@ hasattr(PyObject *self, PyObject *args)
     int rc;
     PyObject *obj, *attr_name;
 
-    if (!PyArg_ParseTuple(args, "OO", &obj, &attr_name)) {
+    if (!PyArg_ParseTuple(args, "OO", &obj, &attr_name))
         return NULL;
-    }
 
     rc = PyObject_HasAttr(obj, attr_name);
 
@@ -47,9 +57,8 @@ getattr(PyObject *self, PyObject *args)
 {
     PyObject *attr, *obj, *attr_name;
 
-    if (!PyArg_ParseTuple(args, "OO", &obj, &attr_name)) {
+    if (!PyArg_ParseTuple(args, "OO", &obj, &attr_name))
         return NULL;
-    }
 
     attr = PyObject_GetAttr(obj, attr_name);
     //TODO check null
@@ -61,6 +70,8 @@ getattr(PyObject *self, PyObject *args)
 
 static PyMethodDef playground_obj_methods[] = {
     {"not_impl", not_impl, METH_VARARGS, "Not Implemented"},
+    {"raise_not_implemented", raise_not_implemented, METH_NOARGS, 
+                                                     "Raise Not Implemented"},
     {"print", print, METH_VARARGS, "PyObject_Print"},
     {"hasattr", hasattr, METH_VARARGS, "PyObject_HasAttr"},
     {"getattr", getattr, METH_VARARGS, "PyObject_GetAttr"},
