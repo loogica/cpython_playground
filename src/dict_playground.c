@@ -12,8 +12,30 @@ my_new_dict(PyObject *self, PyObject *args) {
     return dict;
 }
 
+static PyObject*
+get_keys(PyObject* self, PyObject *args)
+{
+    PyObject *dict, *key, *value, *ret;
+    Py_ssize_t pos = 0;
+    int count = 0;
+
+    if (!PyArg_ParseTuple(args, "O", &dict))
+        return NULL;
+
+    ret = PyList_New(PyDict_Size(dict));
+    Py_INCREF(ret);
+
+    while (PyDict_Next(dict, &pos, &key, &value)) {
+        PyList_SetItem(ret, count, key);
+        count++;
+    }
+
+    return ret;
+}
+
 static PyMethodDef playground_dict_methods[] = {
     {"my_new_dict", my_new_dict, METH_NOARGS, "my new dict"},
+    {"get_keys", get_keys, METH_VARARGS, "get keys"},
     {NULL, NULL, 0, NULL}
 };
 
