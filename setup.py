@@ -9,7 +9,13 @@ number_protocol = Extension('number_protocol_playground',
 dict_playground = Extension('dict_playground',
                             sources=['src/dict_playground.c'])
 
+error_handling = Extension('error_handling',
+                           sources=['src/error_handling.c'])
+
 setup(name='protocol_playground',
       version='1.0',
       description='For Educational Purposes',
-      ext_modules=[number_protocol, object_protocol, dict_playground])
+      ext_modules=[number_protocol,
+                   object_protocol,
+                   dict_playground,
+                   error_handling])
